@@ -1,6 +1,6 @@
 # Py_justiceadmin
 <hr/>
-[![Publish](https://github.com/Geminy3/py_justiceadmin/actions/workflows/publish.yml/badge.svg)](https://github.com/Geminy3/py_justiceadmin/actions/workflows/publish.yml)
+[![Publish](https://github.com/Geminy3/py_justiceadmin/actions/workflows/publish.yml/badge.svg)]
 
 ## Description
 
