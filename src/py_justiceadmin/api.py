@@ -183,10 +183,12 @@ class JA_requester():
         query = []
         nb_recherche = params.pop("nb_recherche")
         for k, v in params.items():
-            if v != None and len(v) > 0:
+            if isinstance(v, bool):
+                next
+            elif v != None and len(v) > 0:
                 if k.startswith("date") and "date" not in query:
                     query.append("date")
-                elif not k.startswith("date") :
+                elif not k.startswith("date"):
                     query.append(k)
         if len(query) == 0:
             raise JAParamsMissingError("No arguments provided to the API")
@@ -236,3 +238,15 @@ class JA_requester():
             id: str | None = None
     ):
         return None
+    
+    def get_parameters(self):
+        self.parameters = {
+            'juridiction' : juridiction._member_names_,
+            'locationCA' : locationCA._member_names_,
+            'locationTA' : locationTA._member_names_
+        }
+        for param in self.parameters:
+            print(f'----- {param.upper()} -----')
+            for value in self.parameters[param]:
+                print(value)
+        return self.parameters

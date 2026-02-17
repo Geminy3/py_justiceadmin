@@ -47,11 +47,11 @@ class _juridiction():
             self.ville = None
         else:
             raise JAParamsValueError("Wrong city argument")
-        
+
         if isinstance(juridictions, list):
-            self.juridictions = [convert_text(j) for j in juridictions]
+            self.juridictions = [convert_text(j) for j in juridictions if j in juridiction._member_names_]
             self.juris = self._create_juridiction()
-        elif isinstance(juridictions, str):
+        elif isinstance(juridictions, str) and juridictions in juridiction._member_names_:
             self.juridictions = convert_text(juridictions)
             self.juris = self._create_juridiction()
         elif juridictions == None:
@@ -68,6 +68,8 @@ class _juridiction():
                 juris.extend(self._process_ville(j))
         elif isinstance(self.juridictions, str):
             juris.append(self._process_ville(self.juridictions))
+            if len(juris) == 1:
+                juris = juris[0]
         elif self.juridictions == None:
             return None
         return juris
@@ -108,6 +110,7 @@ class _juridiction():
                     stock.append(item[0].value)
             return(' OR '.join(stock))
         else:
+            print(self.juris)
             if self.juris[0][0] != juridiction.ce:
                 return ''.join([item[0].value+item[1].value for item in self.juris])
             else:

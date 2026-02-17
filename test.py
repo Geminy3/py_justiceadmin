@@ -5,17 +5,21 @@ if __name__ == "__main__":
         base_url='https://opendata.justice-administrative.fr/recherche/api/', 
     )
 
+    # To access parameters for juridiction and ville
+    #client.get_parameters()
 
     query = {
         'keywords' : '"trouble anormal de voisinage"', 
         'date_start' : None,#'2021-01-20',
         'date_end' : None, #'2023-01-01',
         'type' : None,#"Ordonnance",
-        'juridiction' : None,
-        'ville' : None, 
-        'OnLine' : None, #True / False
+        'juridiction' : 'ta', #ta, ca, ce
+        'ville' : ["bordeaux", "paris"], 
+        'OnLine' : True, #True / False #Pas encore vraiment implémenté
         'nb_recherche' : 10000
     }
+
+
 
     response = client._query(params = query)
     print(len(client.data['hits']))
