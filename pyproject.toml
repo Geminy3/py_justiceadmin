@@ -1,6 +1,6 @@
 [project]
-name = "py-justice-administrative"
-version = "0.1.0"
+name = "py-justiceadmin"
+version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 authors = [
@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.scripts]
-py-justice-administrative = "py_justice_administrative:main"
+py-justiceadmin = "py_justiceadmin:main"
 
 [build-system]
 requires = ["uv_build>=0.9.25,<0.10.0"]

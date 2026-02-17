@@ -1,10 +1,10 @@
 from unidecode import unidecode
 import re
 from datetime import datetime
-from .exceptions import (
+from py_justiceadmin.exceptions import (
     JAParamsValueError,
 )
-from .enums import (
+from py_justiceadmin.enums import (
     juridiction,
     locationCA,
     locationTA,

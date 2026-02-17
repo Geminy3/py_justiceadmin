@@ -1,4 +1,4 @@
-from .exceptions import (
+from py_justiceadmin.exceptions import (
     JAParamsMissingError
 )
 from .class_function import define_dec_from_res, convert_query_params

@@ -6,9 +6,9 @@ from urllib import (
     request as req,
     error as err
 )
-from .classes_params import Decision, Query
-from .exceptions import ERROR_CODES_TO_EXCEPTIONS, JAParamsMissingError
-from .enums import (
+from py_justiceadmin.classes.classes_params import Decision, Query
+from py_justiceadmin.exceptions import ERROR_CODES_TO_EXCEPTIONS, JAParamsMissingError
+from py_justiceadmin.enums import (
     juridiction,
     locationCA,
     locationTA
