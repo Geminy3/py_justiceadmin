@@ -5,3 +5,4 @@ from .exceptions import (
     JAParamsMissingError, 
 )
 from .api import JA_requester
+from .classes_params import define_dec_from_res, convert_query_params

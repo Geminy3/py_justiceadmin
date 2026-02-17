@@ -1,34 +1,20 @@
 import logging
 import os
 import json
-import re
-from unidecode import unidecode
 from urllib import (
     parse,
     request as req,
     error as err
 )
-from .exceptions import (
-    ERROR_CODES_TO_EXCEPTIONS,
-    JAParamsValueError,
-    JAParamsMissingError
-)
+from .classes_params import Decision, Query
+from .exceptions import ERROR_CODES_TO_EXCEPTIONS, JAParamsMissingError
 from .enums import (
-    URL_BUILDER,
     juridiction,
     locationCA,
     locationTA
 )
 
-from .classes import (
-    _juridiction,
-    _type_dec,
-    _date,
-    _query_string,
-    _nb_recherche
-)
-
-__version__ = "0.0.1"
+__version__ = "0.1.1"
 
 class JA_requester():
 
@@ -73,47 +59,79 @@ class JA_requester():
 
         return None
         
-    def get_dec(
+    def get_decision(
             self,
+            method: str = "GET",
             response: dict = None, 
             timeout: int = 30
-    ) -> dict:
+    ) -> None:
         
-        res = self._define_dec_from_res(response)
-        query = parse.quote_plus(
-            self._url_dec(**res)
-        )
-        url = f"{self.JA_base_url.rstrip("/")}/{query}"
-        
-        request = req.Request(
-            method='GET',
-            url=url,
-        )
-        self.dec = self._build_requests(request, timeout=60)
+        try:
+            if len(self.data) == 0:
+                raise JAParamsMissingError("Missing decisions")
+            else:
+                self.decision = Decision(response)
+                self.dec = self._send_requests(
+                    query=self.decision,
+                    method=method,
+                    timeout=timeout
+                )
+                return self.dec
+        except Exception as e:
+            raise JAParamsMissingError(f"Missing decision {e}")
 
-    def _query(
+    def get_query(
             self,
             method: str = "GET",
             params: dict = {},
             timeout: int | None = None
     ) -> dict:
         
-        params = self._convert_params(params)
-        query = parse.quote_plus(
-            self._build_url(params)
+        self.query = Query(params)
+        self.data = self._send_requests(
+            query=self.query,
+            method=method,
+            timeout=timeout
         )
-        url = f"{self.JA_base_url.rstrip("/")}/{query}"
+        return f"Length reponse : {self.data['total']['value']}"
+
+    def get_all_decisions(
+            self,
+            verbose: bool = True
+    ) -> dict:
         
-        self._logger.info(f"REQUEST METHOD URL: {method} {url}")
-        self._logger.info(f"REQUEST PARAMETERS: {query}")
+        try:
+            if len(self.data) == 0:
+                raise JAParamsMissingError("Missing decisions")
+            else:
+                all_dec = {}
+                for i, dec in enumerate(self.data['hits']):
+                    if verbose:
+                        print(f"{i} - {dec}")
+                    all_dec[dec['_id']] = self.get_decision(response = dec)
+                return all_dec
+        except Exception as e:
+            raise JAParamsMissingError(f"Missing decision {e}")
+
+    def _send_requests(
+            self,
+            method: str = "GET",
+            query: Decision|Query = Query(),
+            timeout: int = 30
+    ) -> dict:
+        payload = parse.quote_plus(query._build_url())
+        url_query = f"{self.JA_base_url.rstrip("/")}/{payload}"
+        
+        self._logger.info(f"REQUEST METHOD URL: {"GET"} {url_query}")
+        self._logger.info(f"REQUEST PARAMETERS: {payload}")
         
         request = req.Request(
             method=method,
-            url=url,
+            url=url_query,
         )
 
-        self.data = self._build_requests(request, timeout=timeout)
-        return self.data['total']['value']
+        data = self._build_requests(request, timeout=timeout)
+        return data
 
     def _build_requests(
             self,
@@ -144,100 +162,7 @@ class JA_requester():
             raise exc
         
         return data['decisions']['body']['hits']
-
-
-    def _define_dec_from_res(
-            self,
-            response: dict = None,
-    ) -> dict:
         
-        response = response['_source']
-        id_xml = response["Identification"].replace(".xml", "")
-        date = response["Date_Lecture"]
-        id_dec = response['Numero_Dossier']
-        jurisdiction = response["Code_Juridiction"]
-        return {
-            'id_xml' : id_xml, 
-            'date' : date,
-            'id_dec' : id_dec, 
-            'juridiction' : jurisdiction
-        }
-    
-    def _url_dec(
-            self, 
-            **kwargs
-    ) -> str:
-        
-        params = {**kwargs}
-        #print(params)
-        url = URL_BUILDER["get_dec"]
-        for key in params:
-            url = url.replace(key, params[key])
-        query = url.replace('{', '').replace('}', '')
-        return query
-
-    def _build_url(
-            self,
-            params: dict = {}
-    ):
-        query = []
-        nb_recherche = params.pop("nb_recherche")
-        for k, v in params.items():
-            if isinstance(v, bool):
-                next
-            elif v != None and len(v) > 0:
-                if k.startswith("date") and "date" not in query:
-                    query.append("date")
-                elif not k.startswith("date"):
-                    query.append(k)
-        if len(query) == 0:
-            raise JAParamsMissingError("No arguments provided to the API")
-        url = URL_BUILDER[''.join(query)]
-        for k in query:
-            if k == 'date':
-                url = re.sub(string=url, pattern=f'{k}_start', repl=params[k+'_start']).replace("{", "").replace("}", "")
-                url = re.sub(string=url, pattern=f'{k}_end', repl=params[k+'_end']).replace("{", "").replace("}", "")
-            elif k == 'juridiction' and isinstance(params['juridiction'], list):
-                pass
-            else:
-                url = re.sub(string=url, pattern=f'{k}', repl=params[k]).replace("{", "").replace("}", "")
-        url = re.sub(string=url, pattern="nb_recherche", repl=str(nb_recherche))
-        return url
-        
-    def _convert_params(
-            self,
-            params: dict = {}
-    ):
-
-        for k, v in params.items():
-            match k:
-                case 'nb_recherche':
-                    self.nb_recherche = _nb_recherche(params[k])
-                    params[k] = self.nb_recherche.nb_recherche
-                case "juridiction":
-                    self.juridiction = _juridiction(params['ville'], v)
-                    params[k] = self.juridiction._query_args()
-                case "type":
-                    self.type_dec = _type_dec(v)
-                    params[k] = self.type_dec._query_args()
-                case "date_start":
-                    self.date = _date(v, params["date_end"])
-                    date_start, date_end = self.date._query_args()
-                    params[k] = date_start
-                    params["date_end"] = date_end
-                case "keywords":
-                    self.keywords = _query_string(v)
-                    params[k] = self.keywords._query_args()
-        
-        params["ville"] = None
-        print(params)
-        return params
-
-    def grab_decision_text(
-            self,
-            id: str | None = None
-    ):
-        return None
     
     def get_parameters(self):
         self.parameters = {

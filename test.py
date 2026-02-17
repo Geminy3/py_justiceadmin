@@ -10,23 +10,27 @@ if __name__ == "__main__":
 
     query = {
         'keywords' : '"trouble anormal de voisinage"', 
-        'date_start' : None,#'2021-01-20',
-        'date_end' : None, #'2023-01-01',
-        'type' : None,#"Ordonnance",
-        'juridiction' : 'ta', #ta, ca, ce
+        'date_start' : '2021-01-20',
+        'date_end' : '2026-01-01',
+        'type' : "Ordonnance",
+        'juridiction' : "ta", #ta, ca, ce
         'ville' : ["bordeaux", "paris"], 
         'OnLine' : True, #True / False #Pas encore vraiment implémenté
         'nb_recherche' : 10000
     }
 
 
-
-    response = client._query(params = query)
-    print(len(client.data['hits']))
+    response = client.get_query(params = query)
+    print(response)
     #print(client.data['hits'][0])
     # for dec in client.data['hits']:
     #     print(dec)
 
     # To get a specific dec from reponses
-    client.get_dec(client.data['hits'][2])
-    #print(client.dec)
+    client.get_decision(response = client.data['hits'][1])
+    #print(client.get_decision(response = client.data['hits'][1]))
+    
+
+    # To get all the decision from a respones
+    decisions = client.get_all_decisions()
+    #print(decisions)

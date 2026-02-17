@@ -2,10 +2,9 @@ from unidecode import unidecode
 import re
 from datetime import datetime
 from .exceptions import (
-    JAParamsValueError
+    JAParamsValueError,
 )
 from .enums import (
-    URL_BUILDER,
     juridiction,
     locationCA,
     locationTA,
@@ -35,7 +34,8 @@ def convert_text(
     text = text.replace(" ", "")
     return text
 
-class _juridiction():
+
+class Juridiction():
 
     def __init__(self, ville, juridictions):
 
@@ -116,7 +116,7 @@ class _juridiction():
             else:
                 return self.juris[0][0].value
 
-class _type_dec():
+class Type_dec():
 
     def __init__(self, _type):
         if isinstance(_type, str) and convert_text(_type) in type_dec._member_names_:
@@ -125,7 +125,7 @@ class _type_dec():
             if len(_type) == 2 and [convert_text(name) for name in _type].sort() == ["decision", "ordonnance"]:
                 self.type = None
             elif len(_type) == 1:
-                return _type_dec(_type[0])
+                return Type_dec(_type[0])
             else:
                 raise JAParamsValueError("Wrong type argument")
         else:
@@ -140,7 +140,7 @@ class _type_dec():
         else:
             return self.type
 
-class _date():
+class Date():
     # Date format is YYYY-MM_DD
     def __init__(self, date_start, date_end):
         if date_start is not None:
@@ -176,7 +176,7 @@ class _date():
 
         
 
-class _query_string():
+class Keywords():
 
     def __init__(self, query_string):
         self.query_string = query_string
@@ -184,7 +184,7 @@ class _query_string():
     def _query_args(self):
         return self.query_string
     
-class _dec_online():
+class Dec_online():
 
     def __init__(self, _dec_online):
         if _dec_online:
@@ -197,7 +197,7 @@ class _dec_online():
     def _query_args(self):
         return self.dec_online
     
-class _nb_recherche():
+class Nb_recherche():
 
     def __init__(self, nb):
         if isinstance(nb, int):
