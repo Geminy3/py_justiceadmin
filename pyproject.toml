@@ -1,0 +1,19 @@
+[project]
+name = "py-justice-administrative"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Geminy3", email = "aljo.m@icloud.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "unidecode>=1.4.0",
+]
+
+[project.scripts]
+py-justice-administrative = "py_justice_administrative:main"
+
+[build-system]
+requires = ["uv_build>=0.9.25,<0.10.0"]
+build-backend = "uv_build"
