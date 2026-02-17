@@ -22,7 +22,6 @@ if __name__ == "__main__":
 
     response = client.get_query(params = query)
     print(response)
-    #print(client.data['hits'][0])
     # for dec in client.data['hits']:
     #     print(dec)
 
@@ -34,3 +33,5 @@ if __name__ == "__main__":
     # To get all the decision from a respones
     decisions = client.get_all_decisions()
     #print(decisions)
+
+    # To get all the parameters for `juridiction` and `ville`
