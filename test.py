@@ -1,4 +1,4 @@
-from py_justice_administrative import *
+from py_justiceadmin import JA_requester
 
 if __name__ == "__main__":
     client = JA_requester(
