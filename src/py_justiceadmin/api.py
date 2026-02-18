@@ -11,7 +11,9 @@ from py_justiceadmin.exceptions import ERROR_CODES_TO_EXCEPTIONS, JAParamsMissin
 from py_justiceadmin.enums import (
     juridiction,
     locationCA,
-    locationTA
+    locationTA, 
+    type_dec, 
+    dec_online
 )
 
 __version__ = "0.2.0"
@@ -25,7 +27,8 @@ class JA_requester():
             http_proxy: str | None = None,
             https_proxy: str | None = None,
             default_timeout: int = 10,
-            logging_level: int = logging.ERROR
+            logging_level: int = logging.ERROR, 
+            query_verbose: bool = True
     ):
         #Build HTTP Client
         if base_url == None:
@@ -42,6 +45,7 @@ class JA_requester():
         self.proxy_handler = req.ProxyHandler(proxies=proxies)
         self.url_opener = req.build_opener(self.proxy_handler)
         self.default_timeout = default_timeout
+        self.query_verbose = query_verbose
 
         self.__version__ = __version__
 
@@ -107,8 +111,9 @@ class JA_requester():
             'nb_recherche' : nb_recherche
         }
         print(f"---- QUERY PARAMETERS -----")
-        for k, v in params.items():
-            print(f"{k} : {v}")
+        if self.query_verbose:
+            for k, v in params.items():
+                print(f"{k} : {v}")
         self.query = Query(params)
         self.data = self._send_requests(
             query=self.query,
@@ -143,7 +148,9 @@ class JA_requester():
     ) -> dict:
         payload = parse.quote(query._build_url())
         url_query = f"{self.JA_base_url.rstrip("/")}/{payload}"
-        print(f'URL : {url_query}')
+        if self.query_verbose:
+            print(f'URL : {url_query}')
+            print("---------------------------")
         self._logger.info(f"REQUEST METHOD URL: {"GET"} {url_query}")
         self._logger.info(f"REQUEST PARAMETERS: {payload}")
         
@@ -190,10 +197,11 @@ class JA_requester():
         self.parameters = {
             'juridiction' : juridiction._member_names_,
             'locationCA' : locationCA._member_names_,
-            'locationTA' : locationTA._member_names_
+            'locationTA' : locationTA._member_names_, 
+            'type' : type_dec._member_names_, 
+            'OnLine' : dec_online._member_names_
         }
-        for param in self.parameters:
-            print(f'----- {param.upper()} -----')
-            for value in self.parameters[param]:
-                print(value)
+        for k, v in self.parameters.items():
+            print(f'----- {k.upper()} -----')
+            print(v)
         return self.parameters

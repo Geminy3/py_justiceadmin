@@ -3,20 +3,21 @@ from py_justiceadmin import JA_requester
 if __name__ == "__main__":
     client = JA_requester(
         base_url='https://opendata.justice-administrative.fr/recherche/api/', 
+        query_verbose=False
     )
 
     # To access parameters for juridiction and ville
-    #client.get_parameters()
+    # client.get_parameters()
 
     response = client.get_query(
-        keywords = "voisinage sensible", 
+        keywords = "trouble anormal de voisinage", 
         exact_sentence=True,
-        date_start = None,#'2021-01-20',
-        date_end = None,#'2026-01-01',
-        type = None,#"Ordonnance",
-        juridiction = None,#,"ta", #ta, ca, ce
-        ville = None,#["bordeaux", "paris"], 
-        OnLine = True, #True / False #Pas encore vraiment implémenté
+        date_start = '2021-01-20',
+        date_end = '2026-01-01',
+        type = "Ordonnance",
+        juridiction = "ta",
+        ville = ["bordeaux", "paris"], 
+        OnLine = True,
         nb_recherche = 10000,
         timeout = 30
     )
@@ -25,7 +26,8 @@ if __name__ == "__main__":
     #     print(dec)
 
     # To get a specific dec from reponses
-    client.get_decision(response = client.data['hits'][1])
+    # client.get_decision(response = client.data['hits'][1])
+    # print(client.dec)
     #print(client.get_decision(response = client.data['hits'][1]))
     
 
