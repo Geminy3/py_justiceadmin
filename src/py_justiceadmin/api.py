@@ -1,5 +1,5 @@
 import logging
-import os
+import re
 import json
 from urllib import (
     parse,
@@ -16,7 +16,7 @@ from py_justiceadmin.enums import (
     dec_online
 )
 
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 
 class JA_requester():
 
@@ -111,17 +111,22 @@ class JA_requester():
             'OnLine' : OnLine, #True / False #Pas encore vraiment implémenté
             'nb_recherche' : nb_recherche
         }
-        print(f"---- QUERY PARAMETERS -----")
         if self.query_verbose:
+            print(f"---- QUERY PARAMETERS -----")
             for k, v in params.items():
                 print(f"{k} : {v}")
         self.query = Query(params)
-        self.data = self._send_requests(
+        self.response = self._send_requests(
             query=self.query,
             method=method,
             timeout=timeout
         )
-        return f"Length reponse : {self.data['total']['value']}"
+        self.data = self.response['hits']
+        for i, decision in enumerate(self.data):
+            id_dec = re.sub(pattern = "\\.xml.*$", string=decision['_id'], repl="")
+            juri_dec = decision['_source']['Code_Juridiction']
+            self.data[i]['url_show_dec'] = f'https://opendata.justice-administrative.fr/recherche/shareFile/{juri_dec}/{id_dec}'
+        return f"Length reponse : {self.response['total']['value']}"
 
     def get_all_decisions(
             self,
@@ -133,7 +138,7 @@ class JA_requester():
                 raise JAParamsMissingError("Missing decisions")
             else:
                 all_dec = {}
-                for i, dec in enumerate(self.data['hits']):
+                for i, dec in enumerate(self.data):
                     if verbose:
                         print(f"{i} - {dec}")
                     all_dec[dec['_id']] = self.get_decision(response = dec)

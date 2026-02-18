@@ -22,14 +22,13 @@ if __name__ == "__main__":
         timeout = 30
     )
     print(response)
-    # for dec in client.data['hits']:
-    #     print(dec)
+    for i, dec in enumerate(client.data):
+        print(f'{i} - {dec}')
 
     # To get a specific dec from reponses
-    client.get_decision(response = client.data['hits'][1])
+    client.get_decision(response = client.data[1])
     # print(client.dec)
-    print(client.dec)
-    #print(client.get_decision(response = client.data['hits'][1]))
+    # print(client.get_decision(response = client.data[1]))
     
 
     # To get all the decision from a respones
