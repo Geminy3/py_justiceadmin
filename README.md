@@ -124,3 +124,4 @@ print(client.all_dec)
 - [X] Simplifier le requêtage de l'api via des arguments d'une fonction (nota pour les keywords, ajouter un argument `exact_text`)
 - [X] Créer une fonction de récupération auto de l'ensemble des décisions d'une requête
 - [ ] Rédiger les fonctions de tests
+- [ ] Créer les modèles pydantic pour la structure des query
