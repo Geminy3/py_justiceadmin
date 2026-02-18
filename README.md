@@ -1,5 +1,5 @@
 # Py_justiceadmin
-[![Publish](https://github.com/Geminy3/py_justiceadmin/actions/workflows/publish.yml/badge.svg)](https://github.com/Geminy3/py_justiceadmin/actions/workflows/publish.yml/badge.svg)
+[![Publish](https://github.com/Geminy3/py_justiceadmin/actions/workflows/publish.yml/badge.svg)](https://github.com/Geminy3/py_justiceadmin/)
 ![Pypi](https://img.shields.io/pypi/v/py_justiceadmin.svg)
 
 ## Description
