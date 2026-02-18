@@ -14,7 +14,7 @@ from py_justiceadmin.enums import (
     locationTA
 )
 
-__version__ = "0.1.1"
+__version__ = "0.1.4"
 
 class JA_requester():
 
