@@ -1,7 +1,6 @@
 # Py_justiceadmin
 [![Publish](https://github.com/Geminy3/py_justiceadmin/actions/workflows/publish.yml/badge.svg)](https://github.com/Geminy3/py_justiceadmin/actions/workflows/publish.yml/badge.svg)
 ![Pypi](https://img.shields.io/pypi/v/py-justiceadmin.svg)
-![PythonPypi](https://img.shields.io/pypi/pyversions/py-justiceadmin.svg)
 
 ## Description
 Ce projet s'appuie sur le site de [l'opendata des décisions de la justice administration](https://opendata.justice-administrative.fr/) avec pour objectif de réimplémenter le comportement du moteur de recherche avec une interface en python.
