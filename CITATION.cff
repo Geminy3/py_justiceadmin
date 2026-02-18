@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Massein"
+  given-names: "Alioscha"
+  affiliation: "Maison des Sciences sociales et des Humanités, Lyon Saint-Étienne, CNRS"
+  orcid: "https://orcid.org/0009-0005-5791-1045"
+title: "py_justiceadmin"
+version: 0.2.0
+#doi: 10.5281/zenodo.1234
+date-released: 2026-02-18
+url: "github.com/Geminy3/py_justiceadmin"
