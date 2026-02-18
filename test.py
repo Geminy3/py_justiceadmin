@@ -9,13 +9,13 @@ if __name__ == "__main__":
     #client.get_parameters()
 
     response = client.get_query(
-        keywords = "trouble anormal de voisinage", 
+        keywords = '"trouble"|"anormal"+"voisinage"', 
         exact_sentence=True,
         date_start = None,#'2021-01-20',
         date_end = None,#'2026-01-01',
-        type = "Ordonnance",
-        juridiction = "ta", #ta, ca, ce
-        ville = ["bordeaux", "paris"], 
+        type = None,#"Ordonnance",
+        juridiction = None,#,"ta", #ta, ca, ce
+        ville = None,#["bordeaux", "paris"], 
         OnLine = True, #True / False #Pas encore vraiment implémenté
         nb_recherche = 10000,
         timeout = 30
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     
 
     # To get all the decision from a respones
-    decisions = client.get_all_decisions()
-    #print(decisions)
+    # decisions = client.get_all_decisions()
+    # print(decisions)
 
     # To get all the parameters for `juridiction` and `ville`

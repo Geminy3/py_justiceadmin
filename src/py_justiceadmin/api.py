@@ -97,7 +97,7 @@ class JA_requester():
     ) -> dict:
         
         params = {
-            'keywords' : f'"{keywords}"' if exact_sentence else keywords, 
+            'keywords' : f"{keywords}" if exact_sentence else keywords, 
             'date_start' : date_start if isinstance(date_start, str) else None,
             'date_end' : date_end if isinstance(date_end, str) else None,
             'type' : type if isinstance(type, str) else None,
@@ -141,9 +141,9 @@ class JA_requester():
             query: Decision|Query = Query(),
             timeout: int = 30
     ) -> dict:
-        payload = parse.quote_plus(query._build_url())
+        payload = parse.quote(query._build_url())
         url_query = f"{self.JA_base_url.rstrip("/")}/{payload}"
-        
+        print(f'URL : {url_query}')
         self._logger.info(f"REQUEST METHOD URL: {"GET"} {url_query}")
         self._logger.info(f"REQUEST PARAMETERS: {payload}")
         

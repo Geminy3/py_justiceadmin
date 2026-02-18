@@ -180,8 +180,10 @@ class Keywords():
 
     def __init__(self, query_string):
         self.query_string = query_string
+        #print(self.query_string)
 
     def _query_args(self):
+
         return self.query_string
     
 class Dec_online():
