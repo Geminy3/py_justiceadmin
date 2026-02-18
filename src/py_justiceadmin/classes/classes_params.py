@@ -74,6 +74,7 @@ class Decision():
         self.params = {
             key: value for key, value in self.decision.items() if value is not None
         }
+        self.url_show_dec = f'https://opendata.justice-administrative.fr/recherche/shareFile/{self.params['juridiction']}/{self.params['id_xml']}'
     
     def _build_url(self) -> str:
         

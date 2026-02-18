@@ -16,7 +16,7 @@ from py_justiceadmin.enums import (
     dec_online
 )
 
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 
 class JA_requester():
 
@@ -81,6 +81,7 @@ class JA_requester():
                     method=method,
                     timeout=timeout
                 )
+                self.dec['url_show_dec'] = self.decision.url_show_dec
                 return self.dec
         except Exception as e:
             raise JAParamsMissingError(f"Missing decision {e}")

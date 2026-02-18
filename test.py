@@ -26,8 +26,9 @@ if __name__ == "__main__":
     #     print(dec)
 
     # To get a specific dec from reponses
-    # client.get_decision(response = client.data['hits'][1])
+    client.get_decision(response = client.data['hits'][1])
     # print(client.dec)
+    print(client.dec)
     #print(client.get_decision(response = client.data['hits'][1]))
     
 
