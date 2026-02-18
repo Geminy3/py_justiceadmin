@@ -9,7 +9,7 @@ if __name__ == "__main__":
     #client.get_parameters()
 
     response = client.get_query(
-        keywords = '"trouble"|"anormal"+"voisinage"', 
+        keywords = "voisinage sensible", 
         exact_sentence=True,
         date_start = None,#'2021-01-20',
         date_end = None,#'2026-01-01',

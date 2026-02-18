@@ -97,7 +97,7 @@ class JA_requester():
     ) -> dict:
         
         params = {
-            'keywords' : f"{keywords}" if exact_sentence else keywords, 
+            'keywords' : f'"{keywords}"' if exact_sentence else keywords, 
             'date_start' : date_start if isinstance(date_start, str) else None,
             'date_end' : date_end if isinstance(date_end, str) else None,
             'type' : type if isinstance(type, str) else None,
