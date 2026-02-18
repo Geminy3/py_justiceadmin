@@ -20,7 +20,7 @@ class JA_requester():
 
     def __init__(
             self,
-            base_url: str | None = None,
+            base_url: str | None = 'https://opendata.justice-administrative.fr/recherche/api/',
             JA_headers : dict = {},
             http_proxy: str | None = None,
             https_proxy: str | None = None,
@@ -28,10 +28,11 @@ class JA_requester():
             logging_level: int = logging.ERROR
     ):
         #Build HTTP Client
-
-        JA_base_url = base_url or os.environ['JA_BASE_URL']
+        if base_url == None:
+            raise JAParamsMissingError("Missing endpoint url to requests the API")
+        else:
+            self.JA_base_url = base_url
         
-        self.JA_base_url = JA_base_url
         self.JA_headers = JA_headers
         proxies = {
             **({"http": http_proxy} if http_proxy else {}),
@@ -83,10 +84,31 @@ class JA_requester():
     def get_query(
             self,
             method: str = "GET",
-            params: dict = {},
+            keywords: str | None = '',
+            exact_sentence:bool = True,
+            date_start: str | None = None,
+            date_end: str | None = None,
+            type: str | None = None,
+            juridiction: str | list | None = None,
+            ville: str | list | None = None,
+            OnLine: bool | None = None,
+            nb_recherche: int = 10000,
             timeout: int | None = None
     ) -> dict:
         
+        params = {
+            'keywords' : f'"{keywords}"' if exact_sentence else keywords, 
+            'date_start' : date_start if isinstance(date_start, str) else None,
+            'date_end' : date_end if isinstance(date_end, str) else None,
+            'type' : type if isinstance(type, str) else None,
+            'juridiction' : juridiction, #ta, ca, ce
+            'ville' : ville, 
+            'OnLine' : OnLine, #True / False #Pas encore vraiment implémenté
+            'nb_recherche' : nb_recherche
+        }
+        print(f"---- QUERY PARAMETERS -----")
+        for k, v in params.items():
+            print(f"{k} : {v}")
         self.query = Query(params)
         self.data = self._send_requests(
             query=self.query,

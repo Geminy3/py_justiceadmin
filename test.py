@@ -8,19 +8,18 @@ if __name__ == "__main__":
     # To access parameters for juridiction and ville
     #client.get_parameters()
 
-    query = {
-        'keywords' : '"trouble anormal de voisinage"', 
-        'date_start' : '2021-01-20',
-        'date_end' : '2026-01-01',
-        'type' : "Ordonnance",
-        'juridiction' : "ta", #ta, ca, ce
-        'ville' : ["bordeaux", "paris"], 
-        'OnLine' : True, #True / False #Pas encore vraiment implémenté
-        'nb_recherche' : 10000
-    }
-
-
-    response = client.get_query(params = query)
+    response = client.get_query(
+        keywords = "trouble anormal de voisinage", 
+        exact_sentence=True,
+        date_start = None,#'2021-01-20',
+        date_end = None,#'2026-01-01',
+        type = "Ordonnance",
+        juridiction = "ta", #ta, ca, ce
+        ville = ["bordeaux", "paris"], 
+        OnLine = True, #True / False #Pas encore vraiment implémenté
+        nb_recherche = 10000,
+        timeout = 30
+    )
     print(response)
     # for dec in client.data['hits']:
     #     print(dec)

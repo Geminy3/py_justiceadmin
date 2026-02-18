@@ -46,7 +46,7 @@ def convert_query_params(
             params['date'] = {
                             'date_start' : date_start, 
                             'date_end' : date_end
-                        }
+                        } if date_start != None and date_end != None else None
             params.pop('date_start')
             params.pop('date_end')
         params["ville"] = None

@@ -11,11 +11,11 @@ class Query():
             list_args = None
     ) -> None:
 
-        params = convert_query_params(params)
+        params = convert_query_params(params)   
         self.params = {
             key: value for key, value in params.items() if value is not None
         }
-
+        #print(self.params)
         self.nb_recherche = params['nb_recherche'] if 'nb_recherche' in params else 10000
         self.list_args = ['juridiction', 'date', 'type', 'keywords'] if list_args is None else list_args
         
