@@ -1,6 +1,7 @@
 import logging
 import re
 import json
+from tqdm import tqdm
 from urllib import (
     parse,
     request as req,
@@ -16,7 +17,7 @@ from py_justiceadmin.enums import (
     dec_online
 )
 
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 
 class JA_requester():
 
@@ -130,7 +131,8 @@ class JA_requester():
 
     def get_all_decisions(
             self,
-            verbose: bool = True
+            data : list[dict] = [],
+            verbose: bool = False
     ) -> dict:
         
         try:
@@ -138,10 +140,13 @@ class JA_requester():
                 raise JAParamsMissingError("Missing decisions")
             else:
                 all_dec = {}
-                for i, dec in enumerate(self.data):
-                    if verbose:
+                if verbose:
+                    for i, dec in enumerate(data):
                         print(f"{i} - {dec}")
-                    all_dec[dec['_id']] = self.get_decision(response = dec)
+                        all_dec[dec['_id']] = self.get_decision(response = dec)
+                else:
+                    for dec in tqdm(data):
+                        all_dec[dec['_id']] = self.get_decision(response = dec)
                 return all_dec
         except Exception as e:
             raise JAParamsMissingError(f"Missing decision {e}")
