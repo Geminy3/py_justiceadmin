@@ -17,7 +17,7 @@ from py_justiceadmin.enums import (
     dec_online
 )
 
-__version__ = "0.2.8"
+__version__ = "0.3.0"
 
 class JA_requester():
 

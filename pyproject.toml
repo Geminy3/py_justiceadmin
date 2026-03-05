@@ -1,6 +1,6 @@
 [project]
 name = "py-justiceadmin"
-version = "0.2.8"
+version = "0.3.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "tqdm>=4.67.3",
+    "tqdm>=4.67.1",
     "unidecode>=1.4.0",
 ]
 
