@@ -73,17 +73,14 @@ class JA_requester():
     ) -> None:
         
         try:
-            if len(self.data) == 0:
-                raise JAParamsMissingError("Missing decisions")
-            else:
-                self.decision = Decision(response)
-                self.dec = self._send_requests(
-                    query=self.decision,
-                    method=method,
-                    timeout=timeout
-                )
-                self.dec['url_show_dec'] = self.decision.url_show_dec
-                return self.dec
+            self.decision = Decision(response)
+            self.dec = self._send_requests(
+                query=self.decision,
+                method=method,
+                timeout=timeout
+            )
+            self.dec['url_show_dec'] = self.decision.url_show_dec
+            return self.dec
         except Exception as e:
             raise JAParamsMissingError(f"Missing decision {e}")
 
