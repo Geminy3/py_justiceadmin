@@ -17,7 +17,7 @@ from py_justiceadmin.enums import (
     dec_online
 )
 
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 
 class JA_requester():
 
@@ -136,7 +136,7 @@ class JA_requester():
     ) -> dict:
         
         try:
-            if len(self.data) == 0:
+            if len(data) == 0:
                 raise JAParamsMissingError("Missing decisions")
             else:
                 all_dec = {}
