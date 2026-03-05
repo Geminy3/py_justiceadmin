@@ -105,15 +105,20 @@ print(client.data)
 client.get_decision(response = client.data[1])
 print(client.dec)
 
-#res = client.get_decision(response = client.data['hits'][1])
+# OU
+res = client.get_decision(response = client.data['hits'][1])
 print(res)
 ```
 > {'total': {'value': 1}, 'hits': [{'_id': 'ORTA_2202099_20221129.xml_TA33', '_source': {'Identification': 'ORTA_2202099_20221129.xml', 'Code_Juridiction': 'TA33', 'Nom_Juridiction': 'Tribunal Administratif de Bordeaux', 'Numero_ECLI': 'undefined', 'Code_Publication': 'D', 'Formation_Jugement': '', 'Numero_Dossier': '2202099', 'Type_Decision': 'Ordonnance', 'Date_Lecture': '2022-11-29', 'paragraph': '[...]', 'lastModified': '2025-03-21'}, 'highlight': None, 'url_show_dec' : '[...]'}]}
 
 On peut également récupérer toutes les décisions dans un dictionnaire
 ```python
-client.get_all_decisions()#verbose = True
+client.get_all_decisions(client.data)#verbose = True
 print(client.all_dec)
+
+# OU
+decisions = client.get_all_decisions(client.data)#verbose = True
+print(decisions)
 
 #res = client.get_all_decisions()#verbose = True
 #print(res)
